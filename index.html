@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mauricio Eskenazi — Developer</title>
-  <meta name="description" content="Mauricio Eskenazi — desenvolvedor full stack. Projetos selecionados, stack e contato." />
+  <title>Maurício Eskenazi — Engenheiro de Software</title>
+  <meta name="description" content="Maurício Eskenazi — engenheiro de software focado em desenvolvimento. Transformo ideias em produtos completos, do banco de dados à interface." />
 
   <!-- Fonts: Space Grotesk (display) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,12 +16,13 @@
 
   <style>
     :root {
-      --bg: #0a0b0d;
-      --surface: #101114;
-      --border: #1e2126;
+      --bg: #07080b;
+      --surface: #0f1116;
+      --border: #1c2029;
       --text: #f2f3f5;
       --muted: #8a8f98;
-      --accent: #c9f158;
+      --accent: #4d8dff;
+      --accent-soft: rgba(77,141,255,.14);
       --font-display: "Space Grotesk", sans-serif;
       --font-body: "Inter", sans-serif;
       --maxw: 1160px;
@@ -29,7 +30,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    ::selection { background: var(--accent); color: #0a0b0d; }
+    ::selection { background: var(--accent); color: #fff; }
 
     body {
       font-family: var(--font-body);
@@ -38,6 +39,7 @@
       line-height: 1.6;
       font-size: 16px;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -47,7 +49,7 @@
     /* ============ NAV ============ */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(10,11,13,.82);
+      background: rgba(7,8,11,.82);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
@@ -58,16 +60,18 @@
     .brand {
       font-family: var(--font-display);
       font-weight: 600; font-size: 16px; letter-spacing: -.01em;
+      display: inline-flex; align-items: center; gap: 10px;
     }
     .brand em { font-style: normal; color: var(--muted); }
+    .brand img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
     .nav-right { display: flex; align-items: center; gap: 32px; }
-    .nav-links { display: flex; gap: 28px; }
+    .nav-links { display: flex; gap: 26px; }
     .nav-links a {
       font-size: 14px; color: var(--muted); font-weight: 500;
       transition: color .2s;
     }
     .nav-links a:hover { color: var(--text); }
-    @media (max-width: 760px) { .nav-links { display: none; } }
+    @media (max-width: 860px) { .nav-links { display: none; } }
 
     .lang { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
     .lang button {
@@ -79,14 +83,19 @@
     .lang button.active { color: var(--bg); background: var(--text); }
 
     /* ============ HERO ============ */
-    .hero { padding: 128px 0 96px; }
-    @media (max-width: 640px) { .hero { padding: 88px 0 64px; } }
+    .hero { padding: 96px 0 80px; }
+    @media (max-width: 640px) { .hero { padding: 56px 0 56px; } }
+
+    .hero-grid {
+      display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center;
+    }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 8px; } }
 
     .hero-label {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 13px; font-weight: 500; color: var(--muted);
       letter-spacing: .14em; text-transform: uppercase;
-      margin-bottom: 28px;
+      margin-bottom: 26px;
     }
     .hero-label::before {
       content: ""; width: 32px; height: 1px; background: var(--accent);
@@ -94,36 +103,81 @@
 
     .hero h1 {
       font-family: var(--font-display);
-      font-size: clamp(44px, 8vw, 92px);
+      font-size: clamp(40px, 6vw, 78px);
       font-weight: 600;
-      line-height: 1.02;
+      line-height: 1.03;
       letter-spacing: -.04em;
-      max-width: 15ch;
-      margin-bottom: 32px;
+      max-width: 14ch;
+      margin-bottom: 28px;
     }
     .hero h1 .dim { color: var(--muted); }
 
     .hero .sub {
-      font-size: 18px; color: var(--muted); max-width: 520px; margin-bottom: 48px;
+      font-size: 18px; color: var(--muted); max-width: 520px; margin-bottom: 40px;
     }
+
+    /* Hero visual */
+    .hero-visual { position: relative; width: 100%; aspect-ratio: 1 / 1; max-width: 520px; margin-left: auto; }
+    @media (max-width: 900px) { .hero-visual { max-width: 380px; margin: 0 auto 12px; } }
+    #globe { width: 100%; height: 100%; display: block; }
+
+    /* Ilustração de stack no hero — flutuando */
+    .hero-visual--stack { aspect-ratio: auto; position: relative; display: flex; align-items: center; justify-content: center; }
+    .hero-stack {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 470px; height: auto; display: block; margin: 0 auto;
+      filter: drop-shadow(0 18px 30px rgba(30,70,180,.35));
+      animation: floaty 5.5s ease-in-out infinite;
+      will-change: transform;
+    }
+    /* sombra de chão que respira junto com a flutuação */
+    .hero-visual--stack::after {
+      content: ""; position: absolute; z-index: 0;
+      left: 50%; bottom: 8%; width: 56%; height: 26px;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at center, rgba(25,60,160,.5), transparent 70%);
+      filter: blur(9px);
+      animation: floaty-shadow 5.5s ease-in-out infinite;
+    }
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+    @keyframes floaty-shadow {
+      0%, 100% { opacity: .5; transform: translateX(-50%) scale(1); }
+      50% { opacity: .28; transform: translateX(-50%) scale(.82); }
+    }
+    @media (max-width: 900px) { .hero-stack { max-width: 340px; } }
+    @media (max-width: 640px) { .hero-stack { max-width: 270px; } }
+
+    /* Globo atrás da foto (seção Sobre) */
+    .portrait-wrap #globe {
+      position: absolute; z-index: 0;
+      width: 150%; height: 150%;
+      top: 46%; left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: .5; pointer-events: none;
+    }
+    .portrait-wrap .portrait { position: relative; z-index: 1; }
 
     .btn {
       display: inline-flex; align-items: center; gap: 10px;
       font-family: var(--font-body); font-size: 15px; font-weight: 600;
-      padding: 14px 28px; border-radius: 10px; cursor: pointer;
+      padding: 14px 26px; border-radius: 10px; cursor: pointer;
       border: 1px solid transparent;
-      transition: opacity .2s, border-color .2s, transform .15s;
+      transition: opacity .2s, border-color .2s, transform .15s, background .2s;
     }
     .btn:active { transform: scale(.98); }
-    .btn-solid { background: var(--text); color: var(--bg); }
-    .btn-solid:hover { opacity: .85; }
+    .btn-solid { background: var(--accent); color: #fff; }
+    .btn-solid:hover { opacity: .88; }
     .btn-line { border-color: var(--border); color: var(--text); background: transparent; }
     .btn-line:hover { border-color: var(--muted); }
+    .btn svg { width: 16px; height: 16px; }
     .cta { display: flex; gap: 14px; flex-wrap: wrap; }
 
     /* stats — linhas finas, sem cards */
     .stats {
-      margin-top: 96px;
+      margin-top: 80px;
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
     }
     @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); gap: 32px; } }
@@ -141,7 +195,7 @@
     }
     .marquee-track {
       display: inline-flex; gap: 56px; align-items: center;
-      animation: scroll 28s linear infinite;
+      animation: scroll 34s linear infinite;
     }
     @keyframes scroll { to { transform: translateX(-50%); } }
     .marquee-track span {
@@ -151,10 +205,10 @@
     .marquee-track span::after { content: "·"; color: var(--accent); }
 
     /* ============ SECTIONS ============ */
-    section { padding: 112px 0; }
-    @media (max-width: 640px) { section { padding: 72px 0; } }
+    section { padding: 104px 0; }
+    @media (max-width: 640px) { section { padding: 68px 0; } }
 
-    .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 64px; flex-wrap: wrap; }
+    .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 56px; flex-wrap: wrap; }
     .sec-head h2 {
       font-family: var(--font-display);
       font-size: clamp(30px, 4.5vw, 44px); font-weight: 600; letter-spacing: -.03em;
@@ -162,17 +216,140 @@
     .sec-head .idx { font-family: var(--font-display); color: var(--muted); font-size: 14px; }
 
     /* ============ ABOUT ============ */
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+    .about-grid { display: grid; grid-template-columns: 300px 1fr; gap: 56px; align-items: start; }
     @media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; gap: 32px; } }
-    .about-grid p { color: var(--muted); font-size: 17px; }
-    .about-grid p strong { color: var(--text); font-weight: 600; }
+    .portrait-wrap { position: relative; }
+    .portrait {
+      width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top;
+      border-radius: 16px; border: 1px solid var(--border);
+      display: block;
+    }
+    .portrait-wrap::after {
+      content: ""; position: absolute; inset: -1px; border-radius: 17px;
+      box-shadow: 0 0 0 1px var(--accent-soft), 0 24px 60px -20px rgba(77,141,255,.4);
+      pointer-events: none;
+    }
+    @media (max-width: 820px) { .portrait { max-width: 300px; } }
+    .about-text p { color: var(--muted); font-size: 17px; margin-bottom: 28px; }
+    .about-text p strong { color: var(--text); font-weight: 600; }
     .about-list { display: flex; flex-direction: column; }
     .about-list .row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 15px;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 15px;
     }
     .about-list .row:first-child { border-top: 1px solid var(--border); }
-    .about-list .row span:last-child { color: var(--muted); }
+    .about-list .row span:last-child { color: var(--muted); text-align: right; }
+
+    /* ============ EXPERIENCE ============ */
+    .exp-item {
+      display: grid; grid-template-columns: 190px 1fr; gap: 32px;
+      padding: 36px 0; border-top: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: 1px solid var(--border); }
+    @media (max-width: 640px) { .exp-item { grid-template-columns: 1fr; gap: 14px; } }
+    .exp-meta .period { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+    .exp-meta .dur {
+      display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 600;
+      color: var(--accent); background: var(--accent-soft);
+      border: 1px solid rgba(77,141,255,.3); border-radius: 999px; padding: 4px 12px;
+    }
+    .exp-body h3 { font-family: var(--font-display); font-size: 23px; font-weight: 600; letter-spacing: -.02em; }
+    .exp-body .role { color: var(--accent); font-size: 14px; font-weight: 500; margin: 4px 0 12px; }
+    .exp-body p { color: var(--muted); font-size: 16px; max-width: 640px; }
+
+    /* ============ SKILLS ============ */
+    .skills-group + .skills-group { margin-top: 44px; }
+    .skills-label {
+      font-family: var(--font-display); font-size: 12px; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 22px;
+    }
+    .skills-label::before { content: ""; width: 22px; height: 1px; background: var(--accent); }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .skill {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: var(--font-display); font-size: 14px; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 999px; padding: 9px 16px;
+      transition: border-color .2s, color .2s, transform .15s;
+    }
+    .skill:hover { border-color: var(--muted); color: var(--text); transform: translateY(-2px); }
+    .skill .logo { width: 16px; height: 16px; object-fit: contain; display: block; flex: none; }
+    .skill .logo.concept { color: var(--accent); }
+    .skill.core {
+      color: #fff; background: var(--accent); border-color: var(--accent); font-weight: 600;
+    }
+    .skill.core:hover { color: #fff; }
+    .skill.core .logo.concept { color: #fff; }
+
+    /* ============ CASE STUDIES ============ */
+    .case {
+      position: relative; border-radius: 24px; overflow: hidden;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(120% 120% at 100% 0%, color-mix(in srgb, var(--c) 55%, transparent) 0%, transparent 55%),
+        linear-gradient(150deg, #000 0%, #06070b 42%, color-mix(in srgb, var(--c) 22%, #06070b) 100%);
+      margin-bottom: 32px;
+    }
+    .case-inner { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+    .case-inner.rev { grid-template-columns: 1fr 1fr; }
+    .case-inner.rev .case-body { order: 2; }
+    @media (max-width: 940px) { .case-inner, .case-inner.rev { grid-template-columns: 1fr; } .case-inner.rev .case-body { order: 0; } }
+
+    .case-body { padding: 48px; display: flex; flex-direction: column; gap: 22px; }
+    @media (max-width: 640px) {
+      .case-body { padding: 32px 24px; }
+      .case-stats { grid-template-columns: repeat(2, 1fr); gap: 18px 14px; }
+    }
+    .case-eyebrow {
+      font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--c2); display: flex; align-items: center; gap: 10px; font-weight: 600;
+    }
+    .case-eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--c2); }
+    .case-logo { font-family: var(--font-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; letter-spacing: -.03em; color: #fff; }
+    .case-logo span { color: var(--c2); }
+    .case-sub { color: rgba(255,255,255,.74); font-size: 16px; line-height: 1.5; }
+    .case-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .case-stat { border-top: 1px solid rgba(255,255,255,.14); padding-top: 12px; }
+    .case-stat b { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: #fff; display: block; letter-spacing: -.02em; }
+    .case-stat span { font-size: 10.5px; color: rgba(255,255,255,.55); letter-spacing: .02em; }
+    .case-desc { color: rgba(255,255,255,.66); font-size: 14.5px; line-height: 1.6; }
+    .case-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .case-tags span {
+      font-size: 12px; color: #fff; background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.14); border-radius: 6px; padding: 5px 11px;
+    }
+
+    /* media — carrossel de screenshots reais */
+    .case-media { position: relative; padding: 26px; display: flex; align-items: center; justify-content: center; }
+    .carousel {
+      position: relative; width: 100%; border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12); background: #0b0c10;
+      box-shadow: 0 24px 60px -22px rgba(0,0,0,.75);
+    }
+    /* variante celular (app mobile) */
+    .carousel.phone { max-width: 300px; border-radius: 30px; border: 6px solid #14151a; background: #14151a; }
+    .carousel.phone .car-track img { aspect-ratio: 739 / 1600; }
+    .carousel.phone .car-dots { bottom: 16px; }
+    .car-track { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+    .car-track img {
+      min-width: 100%; width: 100%; aspect-ratio: 16 / 10;
+      object-fit: cover; object-position: top center; display: block;
+    }
+    .car-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(8,9,12,.55); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.22); color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; line-height: 1; opacity: 0; transition: opacity .2s, background .2s;
+    }
+    .carousel:hover .car-nav { opacity: 1; }
+    .car-nav:hover { background: rgba(8,9,12,.85); }
+    .car-nav.prev { left: 12px; } .car-nav.next { right: 12px; }
+    .car-dots { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; gap: 6px; justify-content: center; }
+    .car-dots button { width: 7px; height: 7px; border-radius: 99px; border: 0; padding: 0; background: rgba(255,255,255,.45); cursor: pointer; transition: width .25s, background .25s; }
+    .car-dots button.on { background: #fff; width: 20px; }
+    @media (max-width: 640px) { .car-nav { opacity: 1; } }
 
     /* ============ PROJECTS ============ */
     .project { border-top: 1px solid var(--border); padding: 72px 0; --p: var(--accent); }
@@ -206,7 +383,7 @@
 
     .swiper-button-next, .swiper-button-prev {
       width: 42px; height: 42px; border-radius: 50%;
-      background: rgba(10,11,13,.7); backdrop-filter: blur(8px);
+      background: rgba(7,8,11,.7); backdrop-filter: blur(8px);
       border: 1px solid var(--border); color: var(--text);
       transition: border-color .2s;
     }
@@ -240,16 +417,23 @@
     .foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 13px; }
     .foot .links { display: flex; gap: 24px; }
     .foot a:hover { color: var(--text); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
+      .hero-stack, .hero-visual--stack::after { animation: none; }
+    }
   </style>
 </head>
 <body>
 
   <nav>
     <div class="container nav-inner">
-      <a class="brand" href="#">mauricio<em>.eskenazi</em></a>
+      <a class="brand" href="#"><img src="foto.jpg" alt="Maurício Eskenazi" />mauricio<em>.eskenazi</em></a>
       <div class="nav-right">
         <div class="nav-links">
           <a href="#sobre" data-i18n="nav_about">Sobre</a>
+          <a href="#experiencia" data-i18n="nav_exp">Experiência</a>
+          <a href="#stack" data-i18n="nav_skills">Stack</a>
           <a href="#projetos" data-i18n="nav_projects">Projetos</a>
           <a href="#contato" data-i18n="nav_contact">Contato</a>
         </div>
@@ -263,28 +447,35 @@
   </nav>
 
   <header class="hero">
-    <div class="container">
-      <span class="hero-label" data-i18n="hero_label">Desenvolvedor Full Stack</span>
-      <h1 data-i18n="hero_title"></h1>
-      <p class="sub" data-i18n="hero_sub"></p>
-      <div class="cta">
-        <a class="btn btn-solid" href="#projetos" data-i18n="hero_cta1">Ver projetos</a>
-        <a class="btn btn-line" href="https://github.com/Ekz007" target="_blank" rel="noopener">GitHub</a>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="hero-label" data-i18n="hero_label">Engenheiro de Software</span>
+        <h1 data-i18n="hero_title"></h1>
+        <p class="sub" data-i18n="hero_sub"></p>
+        <div class="cta">
+          <a class="btn btn-solid" href="#projetos" data-i18n="hero_cta1">Ver projetos</a>
+        </div>
       </div>
+      <div class="hero-visual hero-visual--stack">
+        <img class="hero-stack" src="hero-stack.png" alt="Stack de tecnologias — JavaScript, Node, Supabase, SQL, GitHub" />
+      </div>
+    </div>
 
+    <div class="container">
       <div class="stats">
-        <div class="stat"><b>3+</b><span data-i18n="stat1">anos de experiência</span></div>
-        <div class="stat"><b>15+</b><span data-i18n="stat2">projetos entregues</span></div>
-        <div class="stat"><b>8+</b><span data-i18n="stat3">tecnologias</span></div>
-        <div class="stat"><b>PT·EN·ES</b><span data-i18n="stat4">idiomas</span></div>
+        <div class="stat"><b>6+</b><span data-i18n="stat1">anos de experiência</span></div>
+        <div class="stat"><b>20+</b><span data-i18n="stat2">projetos entregues</span></div>
+        <div class="stat"><b>30+</b><span data-i18n="stat3">tecnologias</span></div>
+        <div class="stat"><b>PT · EN</b><span data-i18n="stat4">idiomas</span></div>
       </div>
     </div>
   </header>
 
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track" id="marquee">
-      <span>JavaScript</span><span>TypeScript</span><span>React</span><span>Next.js</span>
-      <span>Node.js</span><span>SQL</span><span>Git</span><span>HTML &amp; CSS</span>
+      <span>Python</span><span>Node.js</span><span>React</span><span>Next.js</span>
+      <span>TypeScript</span><span>Supabase</span><span>OpenAI API</span><span>LangChain</span>
+      <span>RAG</span><span>Multi-Agentes</span><span>n8n</span><span>Docker</span>
     </div>
   </div>
 
@@ -296,13 +487,47 @@
           <span class="idx">01</span>
         </div>
         <div class="about-grid">
-          <p data-i18n="about_text"></p>
-          <div class="about-list">
-            <div class="row"><span data-i18n="ab_focus">Foco</span><span>Web · Full Stack</span></div>
-            <div class="row"><span data-i18n="ab_stack">Stack principal</span><span>TypeScript · React · Node</span></div>
-            <div class="row"><span data-i18n="ab_loc">Localização</span><span>Brasil</span></div>
-            <div class="row"><span data-i18n="ab_status">Status</span><span data-i18n="ab_status_v">Disponível para projetos</span></div>
+          <div class="portrait-wrap">
+            <canvas id="globe" aria-hidden="true"></canvas>
+            <img class="portrait" src="foto.jpg" alt="Maurício Eskenazi" />
           </div>
+          <div>
+            <div class="about-text"><p data-i18n="about_text"></p></div>
+            <div class="about-list">
+              <div class="row"><span data-i18n="ab_focus">Foco</span><span data-i18n="ab_focus_v">IA Generativa · Full Stack</span></div>
+              <div class="row"><span data-i18n="ab_stack">Stack principal</span><span>JavaScript · Node · Python · React · Supabase</span></div>
+              <div class="row"><span data-i18n="ab_loc">Localização</span><span data-i18n="ab_loc_v">Rio de Janeiro, Brasil</span></div>
+              <div class="row"><span data-i18n="ab_edu">Formação</span><span data-i18n="ab_edu_v">Le Wagon · DemoDay Google for Startups</span></div>
+              <div class="row"><span data-i18n="ab_status">Status</span><span data-i18n="ab_status_v">Disponível para projetos</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experiencia" style="padding-top: 0;">
+      <div class="container">
+        <div class="sec-head">
+          <h2 data-i18n="exp_title">Experiência</h2>
+          <span class="idx">02</span>
+        </div>
+        <div id="experience"></div>
+      </div>
+    </section>
+
+    <section id="stack" style="padding-top: 0;">
+      <div class="container">
+        <div class="sec-head">
+          <h2 data-i18n="skills_title">Stack & Conexões</h2>
+          <span class="idx">03</span>
+        </div>
+        <div class="skills-group">
+          <h4 class="skills-label" data-i18n="skills_dev">Desenvolvimento</h4>
+          <div class="skills-grid" id="skills-dev"></div>
+        </div>
+        <div class="skills-group">
+          <h4 class="skills-label" data-i18n="skills_ai">IA & LLMs</h4>
+          <div class="skills-grid" id="skills-ai"></div>
         </div>
       </div>
     </section>
@@ -311,7 +536,7 @@
       <div class="container">
         <div class="sec-head">
           <h2 data-i18n="projects_title">Projetos selecionados</h2>
-          <span class="idx">02</span>
+          <span class="idx">04</span>
         </div>
         <div id="projects"></div>
       </div>
@@ -320,23 +545,19 @@
     <section id="contato" class="contact">
       <div class="container">
         <div class="sec-head" style="margin-bottom: 40px;">
-          <span class="idx">03</span>
+          <span class="idx">05</span>
         </div>
         <h2 data-i18n="contact_title"></h2>
-        <div class="contact-row">
-          <a class="btn btn-solid" href="mailto:seu-email@exemplo.com" data-i18n="contact_email">Enviar e-mail</a>
-          <a class="btn btn-line" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="btn btn-line" href="https://github.com/Ekz007" target="_blank" rel="noopener">GitHub</a>
-        </div>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="container foot">
-      <span>© <span id="year"></span> Mauricio Eskenazi</span>
+      <span>© <span id="year"></span> Maurício Eskenazi</span>
       <div class="links">
         <a href="#sobre" data-i18n="nav_about">Sobre</a>
+        <a href="#experiencia" data-i18n="nav_exp">Experiência</a>
         <a href="#projetos" data-i18n="nav_projects">Projetos</a>
         <a href="#contato" data-i18n="nav_contact">Contato</a>
       </div>
@@ -348,191 +569,346 @@
     /* ============ i18n ============ */
     const I18N = {
       pt: {
-        nav_about:"Sobre", nav_projects:"Projetos", nav_contact:"Contato",
-        hero_label:"Desenvolvedor Full Stack",
-        hero_title:'Código limpo.<br><span class="dim">Produtos que funcionam.</span>',
-        hero_sub:"Sou Mauricio Eskenazi. Desenvolvo aplicações web rápidas, acessíveis e bem construídas — do banco de dados à interface.",
-        hero_cta1:"Ver projetos",
+        nav_about:"Sobre", nav_exp:"Experiência", nav_skills:"Stack", nav_projects:"Projetos", nav_contact:"Contato",
+        hero_label:"Engenheiro de Software",
+        hero_title:'Não entregamos horas.<br><span class="dim">Entregamos sonhos.</span>',
+        hero_sub:"Sou Maurício Eskenazi, engenheiro de software focado em desenvolvimento. Transformo ideias em produtos reais — do banco de dados à interface — com código limpo, escalável e que resolve problemas de verdade.",
+        hero_cta1:"Ver projetos", hero_cta2:"Baixar CV",
         stat1:"anos de experiência", stat2:"projetos entregues", stat3:"tecnologias", stat4:"idiomas",
         about_title:"Sobre mim",
-        about_text:"Sou desenvolvedor focado em construir aplicações modernas e bem feitas. Acredito que <strong>bom software é simples, rápido e resolve um problema real</strong>. Trabalho principalmente com o ecossistema JavaScript, do back-end ao front-end, sempre buscando código legível e produtos que duram. <em>(Edite este texto com a sua história.)</em>",
-        ab_focus:"Foco", ab_stack:"Stack principal", ab_loc:"Localização", ab_status:"Status",
-        ab_status_v:"Disponível para projetos",
+        about_text:"Engenheiro de software focado em <strong>desenvolvimento e na construção de produtos completos</strong>, da arquitetura à produção. Nos últimos 6 anos criei sistemas do zero, refatorei plataformas para escalar e integrei APIs e automações complexas. Acredito que <strong>bom software é simples, rápido e resolve um problema real</strong>. Formado no bootcamp da Le Wagon, com projeto final apresentado no DemoDay do Google for Startups.",
+        ab_focus:"Foco", ab_focus_v:"Desenvolvimento · Full Stack",
+        ab_stack:"Stack principal",
+        ab_loc:"Localização", ab_loc_v:"Rio de Janeiro, Brasil",
+        ab_edu:"Formação", ab_edu_v:"Le Wagon · DemoDay Google for Startups",
+        ab_status:"Status", ab_status_v:"Disponível para projetos",
+        exp_title:"Experiência",
+        skills_title:"Stack & Conexões",
+        skills_dev:"Desenvolvimento", skills_ai:"IA & LLMs",
         projects_title:"Projetos selecionados",
-        contact_title:'Vamos trabalhar <span class="dim">juntos?</span>',
-        contact_email:"Enviar e-mail",
+        contact_title:'Vamos construir <span class="dim">algo juntos?</span>',
+        contact_email:"Enviar e-mail", contact_cv:"Baixar currículo",
         view:"Ver projeto", code:"Ver código"
       },
       en: {
-        nav_about:"About", nav_projects:"Projects", nav_contact:"Contact",
-        hero_label:"Full Stack Developer",
-        hero_title:'Clean code.<br><span class="dim">Products that work.</span>',
-        hero_sub:"I'm Mauricio Eskenazi. I build fast, accessible and well-crafted web applications — from database to interface.",
-        hero_cta1:"View projects",
+        nav_about:"About", nav_exp:"Experience", nav_skills:"Stack", nav_projects:"Projects", nav_contact:"Contact",
+        hero_label:"Software Engineer",
+        hero_title:'We don\'t deliver hours.<br><span class="dim">We deliver dreams.</span>',
+        hero_sub:"I'm Maurício Eskenazi, a software engineer focused on development. I turn ideas into real products — from database to interface — with clean, scalable code that solves real problems.",
+        hero_cta1:"View projects", hero_cta2:"Download CV",
         stat1:"years of experience", stat2:"projects delivered", stat3:"technologies", stat4:"languages",
         about_title:"About me",
-        about_text:"I'm a developer focused on building modern, well-crafted applications. I believe <strong>good software is simple, fast and solves a real problem</strong>. I work mainly within the JavaScript ecosystem, from back-end to front-end, always aiming for readable code and products that last. <em>(Edit this text with your story.)</em>",
-        ab_focus:"Focus", ab_stack:"Main stack", ab_loc:"Location", ab_status:"Status",
-        ab_status_v:"Available for projects",
+        about_text:"A software engineer focused on <strong>development and building complete products</strong>, from architecture to production. Over the past 6 years I've built systems from scratch, refactored platforms to scale and integrated complex APIs and automations. I believe <strong>good software is simple, fast and solves a real problem</strong>. Trained at Le Wagon's bootcamp, with a final project showcased at the Google for Startups DemoDay.",
+        ab_focus:"Focus", ab_focus_v:"Development · Full Stack",
+        ab_stack:"Main stack",
+        ab_loc:"Location", ab_loc_v:"Rio de Janeiro, Brazil",
+        ab_edu:"Education", ab_edu_v:"Le Wagon · Google for Startups DemoDay",
+        ab_status:"Status", ab_status_v:"Available for projects",
+        exp_title:"Experience",
+        skills_title:"Stack & Connections",
+        skills_dev:"Development", skills_ai:"AI & LLMs",
         projects_title:"Selected projects",
-        contact_title:'Let\'s work <span class="dim">together?</span>',
-        contact_email:"Send email",
+        contact_title:'Let\'s build <span class="dim">something together?</span>',
+        contact_email:"Send email", contact_cv:"Download CV",
         view:"View project", code:"View code"
       },
       es: {
-        nav_about:"Sobre mí", nav_projects:"Proyectos", nav_contact:"Contacto",
-        hero_label:"Desarrollador Full Stack",
-        hero_title:'Código limpio.<br><span class="dim">Productos que funcionan.</span>',
-        hero_sub:"Soy Mauricio Eskenazi. Desarrollo aplicaciones web rápidas, accesibles y bien construidas — de la base de datos a la interfaz.",
-        hero_cta1:"Ver proyectos",
+        nav_about:"Sobre mí", nav_exp:"Experiencia", nav_skills:"Stack", nav_projects:"Proyectos", nav_contact:"Contacto",
+        hero_label:"Ingeniero de Software",
+        hero_title:'No entregamos horas.<br><span class="dim">Entregamos sueños.</span>',
+        hero_sub:"Soy Maurício Eskenazi, ingeniero de software enfocado en desarrollo. Transformo ideas en productos reales — de la base de datos a la interfaz — con código limpio, escalable y que resuelve problemas de verdad.",
+        hero_cta1:"Ver proyectos", hero_cta2:"Descargar CV",
         stat1:"años de experiencia", stat2:"proyectos entregados", stat3:"tecnologías", stat4:"idiomas",
         about_title:"Sobre mí",
-        about_text:"Soy desarrollador enfocado en construir aplicaciones modernas y bien hechas. Creo que <strong>el buen software es simple, rápido y resuelve un problema real</strong>. Trabajo principalmente con el ecosistema JavaScript, del back-end al front-end, siempre buscando código legible y productos que perduran. <em>(Edita este texto con tu historia.)</em>",
-        ab_focus:"Enfoque", ab_stack:"Stack principal", ab_loc:"Ubicación", ab_status:"Estado",
-        ab_status_v:"Disponible para proyectos",
+        about_text:"Ingeniero de software enfocado en <strong>desarrollo y en la construcción de productos completos</strong>, de la arquitectura a la producción. En los últimos 6 años creé sistemas desde cero, refactoricé plataformas para escalar e integré APIs y automatizaciones complejas. Creo que <strong>el buen software es simple, rápido y resuelve un problema real</strong>. Formado en el bootcamp de Le Wagon, con proyecto final presentado en el DemoDay de Google for Startups.",
+        ab_focus:"Enfoque", ab_focus_v:"Desarrollo · Full Stack",
+        ab_stack:"Stack principal",
+        ab_loc:"Ubicación", ab_loc_v:"Río de Janeiro, Brasil",
+        ab_edu:"Formación", ab_edu_v:"Le Wagon · DemoDay Google for Startups",
+        ab_status:"Estado", ab_status_v:"Disponible para proyectos",
+        exp_title:"Experiencia",
+        skills_title:"Stack y Conexiones",
+        skills_dev:"Desarrollo", skills_ai:"IA y LLMs",
         projects_title:"Proyectos seleccionados",
-        contact_title:'¿Trabajamos <span class="dim">juntos?</span>',
-        contact_email:"Enviar correo",
+        contact_title:'¿Construimos <span class="dim">algo juntos?</span>',
+        contact_email:"Enviar correo", contact_cv:"Descargar CV",
         view:"Ver proyecto", code:"Ver código"
       }
     };
 
-    /* ============ Projects (cor de acento por projeto) ============ */
-    const PROJECTS = [
+    /* ============ Experiência ============ */
+    const EXPERIENCE = [
       {
-        color:"#c9f158",
-        title:{pt:"Traders Hub", en:"Traders Hub", es:"Traders Hub"},
+        company:"Grupo Watrix", years:"2023 — 2026",
+        dur:{pt:"3 anos", en:"3 yrs", es:"3 años"},
+        role:{pt:"Engenheiro de Software · IA para Imobiliárias & Construtoras", en:"Software Engineer · AI for Real Estate & Construction", es:"Ingeniero de Software · IA para Inmobiliarias y Constructoras"},
         desc:{
-          pt:"Dashboard de trading em tempo real: gráficos, carteira e alertas de preço.",
-          en:"Real-time trading dashboard: charts, portfolio and price alerts.",
-          es:"Panel de trading en tiempo real: gráficos, cartera y alertas de precio."
-        },
-        tags:["React","TypeScript","WebSocket"],
-        slides:["chart","dashboard","cards"]
+          pt:"Sistema de atendimento 360° com agentes de IA generativa autônomos em todo o funil. Arquitetura RAG com bancos vetoriais (Supabase), CRM White Label e integrações via API em tempo real.",
+          en:"360° customer-service platform with autonomous generative-AI agents across the funnel. RAG architecture with vector databases (Supabase), White Label CRM and real-time API integrations.",
+          es:"Plataforma de atención 360° con agentes de IA generativa autónomos en todo el embudo. Arquitectura RAG con bases vectoriales (Supabase), CRM White Label e integraciones vía API en tiempo real."
+        }
       },
       {
-        color:"#7dd3fc",
-        title:{pt:"Loja Online", en:"Online Store", es:"Tienda Online"},
+        company:"Construtora JADA", years:"2021 — 2023",
+        dur:{pt:"2 anos", en:"2 yrs", es:"2 años"},
+        role:{pt:"Engenheiro de Software · Tecnologia & Inteligência Artificial", en:"Software Engineer · Technology & Artificial Intelligence", es:"Ingeniero de Software · Tecnología e Inteligencia Artificial"},
         desc:{
-          pt:"E-commerce completo com carrinho, checkout e painel administrativo.",
-          en:"Full e-commerce with cart, checkout and admin panel.",
-          es:"E-commerce completo con carrito, checkout y panel de administración."
-        },
-        tags:["Next.js","Node.js","Stripe"],
-        slides:["cards","chart","dashboard"]
+          pt:"Criação de sistema completo do zero, da arquitetura à produção. Atendimento multi-agentes, automação de cadastro e qualificação, e orquestração de workflows com n8n.",
+          en:"Built a complete system from scratch, from architecture to production. Multi-agent support, registration & qualification automation and workflow orchestration with n8n.",
+          es:"Creación de un sistema completo desde cero, de la arquitectura a la producción. Atención multi-agente, automatización de registro y calificación y orquestación de workflows con n8n."
+        }
       },
       {
-        color:"#fda4af",
-        title:{pt:"App de Produtividade", en:"Productivity App", es:"App de Productividad"},
+        company:"Consultor Independente", years:"2020 — 2021",
+        dur:{pt:"1 ano", en:"1 yr", es:"1 año"},
+        role:{pt:"Engenheiro de Software · Consultoria & Desenvolvimento", en:"Software Engineer · Consulting & Development", es:"Ingeniero de Software · Consultoría y Desarrollo"},
         desc:{
-          pt:"Gestão de tarefas e times com colaboração em tempo real.",
-          en:"Task and team management with real-time collaboration.",
-          es:"Gestión de tareas y equipos con colaboración en tiempo real."
-        },
-        tags:["React","Firebase","Realtime"],
-        slides:["dashboard","cards","chart"]
+          pt:"Consultoria estratégica e desenvolvimento de plataformas web, sites institucionais e automações de chatbot para múltiplos clientes, com gestão end-to-end.",
+          en:"Strategic consulting and development of web platforms, corporate sites and chatbot automations for multiple clients, with end-to-end delivery.",
+          es:"Consultoría estratégica y desarrollo de plataformas web, sitios institucionales y automatizaciones de chatbot para múltiples clientes, con gestión end-to-end."
+        }
       }
     ];
 
-    /* ============ Minimal SVG mockups (tintados pela cor do projeto) ============ */
-    function mockup(type, color){
-      const bg="#101114", line="#1e2126", mut="#33373e";
-      const frame = `<rect width='960' height='540' fill='${bg}'/>
-        <rect x='0' y='0' width='960' height='44' fill='#0c0d10'/>
-        <circle cx='24' cy='22' r='4.5' fill='${mut}'/><circle cx='42' cy='22' r='4.5' fill='${mut}'/><circle cx='60' cy='22' r='4.5' fill='${mut}'/>
-        <rect x='330' y='13' width='300' height='18' rx='9' fill='${line}'/>`;
-      let body="";
-      if(type==="chart"){
-        let pts="";
-        const ys=[380,340,352,300,318,262,282,230,244,196,214,170,150];
-        ys.forEach((y,i)=>{ pts+=`${80+i*66},${y} `; });
-        body=`
-          ${[0,1,2,3,4].map(i=>`<line x1='80' y1='${140+i*64}' x2='880' y2='${140+i*64}' stroke='${line}'/>`).join("")}
-          <polyline points='${pts}' fill='none' stroke='${color}' stroke-width='2.5' stroke-linejoin='round'/>
-          ${ys.map((y,i)=>`<circle cx='${80+i*66}' cy='${y}' r='3' fill='${bg}' stroke='${color}' stroke-width='2'/>`).join("")}
-          <rect x='80' y='452' width='120' height='10' rx='5' fill='${mut}'/>
-          <rect x='760' y='452' width='120' height='10' rx='5' fill='${mut}'/>`;
-      } else if(type==="cards"){
-        body=`${[0,1,2].map(i=>{const x=80+i*280; return `
-          <rect x='${x}' y='96' width='240' height='168' rx='10' fill='#0c0d10' stroke='${line}'/>
-          <rect x='${x+24}' y='124' width='40' height='40' rx='8' fill='${color}' opacity='.18'/>
-          <rect x='${x+36}' y='136' width='16' height='16' rx='4' fill='${color}'/>
-          <rect x='${x+24}' y='188' width='150' height='12' rx='6' fill='${mut}'/>
-          <rect x='${x+24}' y='214' width='100' height='9' rx='4.5' fill='${line}'/>`;}).join("")}
-          <rect x='80' y='296' width='800' height='180' rx='10' fill='#0c0d10' stroke='${line}'/>
-          ${[0,1,2,3].map(i=>`
-            <rect x='112' y='${326+i*34}' width='${340-i*50}' height='10' rx='5' fill='${i===0?color:mut}'/>
-            <rect x='700' y='${326+i*34}' width='148' height='10' rx='5' fill='${line}'/>`).join("")}`;
-      } else { // dashboard
-        body=`
-          <rect x='0' y='44' width='220' height='496' fill='#0c0d10'/>
-          <line x1='220' y1='44' x2='220' y2='540' stroke='${line}'/>
-          ${[0,1,2,3,4].map(i=>`<rect x='28' y='${88+i*44}' width='${i===0?164:130}' height='11' rx='5.5' fill='${i===0?color:mut}'/>`).join("")}
-          <rect x='260' y='88' width='420' height='110' rx='10' fill='#0c0d10' stroke='${line}'/>
-          <rect x='288' y='116' width='90' height='22' rx='6' fill='${color}' opacity='.9'/>
-          <rect x='288' y='154' width='300' height='9' rx='4.5' fill='${mut}'/>
-          <rect x='704' y='88' width='216' height='110' rx='10' fill='#0c0d10' stroke='${line}'/>
-          <circle cx='812' cy='143' r='34' fill='none' stroke='${line}' stroke-width='9'/>
-          <circle cx='812' cy='143' r='34' fill='none' stroke='${color}' stroke-width='9' stroke-dasharray='150 214' transform='rotate(-90 812 143)'/>
-          <rect x='260' y='226' width='660' height='270' rx='10' fill='#0c0d10' stroke='${line}'/>
-          ${[0,1,2,3,4,5].map(i=>`
-            <rect x='292' y='${258+i*38}' width='200' height='10' rx='5' fill='${i===0?color:mut}'/>
-            <rect x='560' y='${258+i*38}' width='120' height='10' rx='5' fill='${line}'/>
-            <rect x='760' y='${258+i*38}' width='120' height='10' rx='5' fill='${line}'/>`).join("")}`;
+    /* ============ Skills / Conexões (com logos) ============ */
+    // s = slug do Simple Icons (cdn.simpleicons.org). c = cor forçada (logos escuros -> white).
+    // core = destaque em azul. Sem slug => ícone genérico de "conexão".
+    const STACK_DEV = [
+      {n:"HTML", s:"html5", core:true},
+      {n:"CSS", s:"css"},
+      {n:"JavaScript", s:"javascript", core:true},
+      {n:"TypeScript", s:"typescript"},
+      {n:"Python", s:"python", core:true},
+      {n:"Node.js", s:"nodedotjs"},
+      {n:"React", s:"react"},
+      {n:"Next.js", s:"nextdotjs", c:"white"},
+      {n:"Supabase", s:"supabase", core:true},
+      {n:"PostgreSQL", s:"postgresql"},
+      {n:"MongoDB", s:"mongodb"},
+      {n:"Docker", s:"docker"},
+      {n:"Git", s:"git"},
+      {n:"Vercel", s:"vercel", c:"white"},
+      {n:"Stripe", s:"stripe"},
+      {n:"Figma", s:"figma"},
+      {n:"n8n", s:"n8n"},
+      {n:"Make", s:"make"},
+      {n:"Zapier", s:"zapier"},
+      {n:"WhatsApp API", s:"whatsapp"},
+      {n:"REST APIs"},
+      {n:"Webhooks"}
+    ];
+    const STACK_AI = [
+      {n:"LLMs"},
+      {n:"LangChain", s:"langchain", c:"white", core:true},
+      {n:"Claude", s:"claude"},
+      {n:"Anthropic", s:"anthropic", c:"white"},
+      {n:"OpenAI"},
+      {n:"Gemini", s:"googlegemini"},
+      {n:"Hugging Face", s:"huggingface"},
+      {n:"Ollama", s:"ollama", c:"white"},
+      {n:"Qdrant", s:"qdrant"},
+      {n:"RAG"},
+      {n:"Embeddings"},
+      {n:"Multi-Agentes"},
+      {n:"Prompt Engineering"}
+    ];
+    const CONCEPT_SVG = `<svg class="logo concept" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.1"/><circle cx="19" cy="6" r="2.1"/><circle cx="12" cy="18" r="2.1"/><path d="M6.9 7.3 10.6 15.7M17.1 7.3 13.4 15.7M7.1 6h9.8"/></svg>`;
+
+    /* ============ Case studies (degradê preto + cor da plataforma) ============ */
+    const CASES = [
+      {
+        id:"synthor", c:"#25349c", c2:"#7b6cff",
+        eyebrow:{pt:"Estudo de caso · SaaS · CRM com IA", en:"Case study · SaaS · AI CRM", es:"Estudio de caso · SaaS · CRM con IA"},
+        logo:'Syn<span>thor</span>',
+        sub:{
+          pt:"CRM omnichannel com agentes de IA conversacional que atendem, qualificam e vendem 24/7 — por voz, e-mail e chat, direto no funil de vendas.",
+          en:"Omnichannel CRM with conversational AI agents that serve, qualify and sell 24/7 — by voice, email and chat, right inside the sales funnel.",
+          es:"CRM omnicanal con agentes de IA conversacional que atienden, califican y venden 24/7 — por voz, e-mail y chat, dentro del embudo de ventas."
+        },
+        stats:[
+          {b:"+100", l:{pt:"modelos orquestrados",en:"models orchestrated",es:"modelos orquestados"}},
+          {b:"+40", l:{pt:"ferramentas integradas",en:"integrated tools",es:"herramientas integradas"}},
+          {b:"Omnichannel", l:{pt:"voz · e-mail · chat",en:"voice · email · chat",es:"voz · e-mail · chat"}},
+          {b:"White Label", l:{pt:"SaaS multi-tenant",en:"multi-tenant SaaS",es:"SaaS multi-tenant"}}
+        ],
+        desc:{
+          pt:"Plataforma SaaS White Label onde um agente de IA conversacional atende em todos os canais (WhatsApp, Instagram, Messenger), qualifica e organiza cada lead sozinho no Kanban e dispara follow-ups por etapa do funil. Um Copilot em linguagem natural cria agentes, automações e relatórios — orquestrando +100 modelos (ChatGPT, Claude, Gemini) e +40 ferramentas integradas, agindo direto no CRM.",
+          en:"White Label SaaS platform where a conversational AI agent handles every channel (WhatsApp, Instagram, Messenger), qualifies and organizes each lead on the Kanban by itself and fires stage-based follow-ups. A natural-language Copilot builds agents, automations and reports — orchestrating +100 models (ChatGPT, Claude, Gemini) and +40 integrated tools, acting directly inside the CRM.",
+          es:"Plataforma SaaS White Label donde un agente de IA conversacional atiende todos los canales (WhatsApp, Instagram, Messenger), califica y organiza cada lead solo en el Kanban y dispara follow-ups por etapa del embudo. Un Copilot en lenguaje natural crea agentes, automatizaciones e informes — orquestando +100 modelos (ChatGPT, Claude, Gemini) y +40 herramientas integradas, actuando directo en el CRM."
+        },
+        tags:["React","TypeScript","Node.js","Supabase","LLMs","White Label"],
+        media:"gallery",
+        images:["synthor-1.png","synthor-2.png","synthor-3.png","synthor-4.png","synthor-5.png"]
+      },
+      {
+        id:"nascer", c:"#1f50c8", c2:"#8fd14f",
+        eyebrow:{pt:"Estudo de caso · Product & Engineering", en:"Case study · Product & Engineering", es:"Estudio de caso · Product & Engineering"},
+        logo:'Programa <span>Nascer</span> 2026',
+        sub:{
+          pt:"Plataforma de pré-incubação de startups de Santa Catarina — da inscrição à seleção e ao acompanhamento diário, com assistente de IA.",
+          en:"Startup pre-incubation platform for Santa Catarina — from application to selection and daily tracking, with an AI assistant.",
+          es:"Plataforma de pre-incubación de startups de Santa Catarina — de la inscripción a la selección y al seguimiento diario, con asistente de IA."
+        },
+        stats:[
+          {b:"20+", l:{pt:"módulos",en:"modules",es:"módulos"}},
+          {b:"2", l:{pt:"experiências",en:"experiences",es:"experiencias"}},
+          {b:"4", l:{pt:"papéis de acesso",en:"access roles",es:"roles de acceso"}},
+          {b:"PWA", l:{pt:"instalável",en:"installable",es:"instalable"}}
+        ],
+        desc:{
+          pt:"SPA em React 19 + TypeScript sobre Supabase (Postgres, Auth e RLS), com lógica sensível isolada em Edge Functions (Deno) e o assistente “Maurício IA” — construído sobre a OpenAI, com memória, voz e atalhos navegáveis. Área do empreendedor mobile-first + painel administrativo com avaliação em 3 camadas (nota 0–400).",
+          en:"React 19 + TypeScript SPA on Supabase (Postgres, Auth and RLS), with sensitive logic isolated in Edge Functions (Deno) and the “Maurício IA” assistant — built on OpenAI, with memory, voice and navigable shortcuts. Mobile-first entrepreneur area + admin panel with 3-layer scoring (0–400).",
+          es:"SPA en React 19 + TypeScript sobre Supabase (Postgres, Auth y RLS), con lógica sensible aislada en Edge Functions (Deno) y el asistente “Maurício IA” — construido sobre OpenAI, con memoria, voz y atajos navegables. Área del emprendedor mobile-first + panel administrativo con evaluación en 3 capas (0–400)."
+        },
+        tags:["React 19","TypeScript","Supabase","Edge Functions","OpenAI API","PWA"],
+        media:"gallery",
+        images:["nascer-1.jpg","nascer-2.jpg","nascer-3.jpg","nascer-4.jpg","nascer-5.jpg","nascer-6.jpg","nascer-7.jpg","nascer-8.jpg","nascer-9.jpg"]
+      },
+      {
+        id:"decoreia", c:"#e0561f", c2:"#ff7a3c",
+        eyebrow:{pt:"Estudo de caso · Produto Digital", en:"Case study · Digital Product", es:"Estudio de caso · Producto Digital"},
+        logo:'Decore<span>IA</span>',
+        sub:{
+          pt:"Um designer de interiores com IA no bolso: uma foto do ambiente vira projeto novo, vídeo cinemático e modelo 3D navegável — em segundos.",
+          en:"An AI interior designer in your pocket: a photo of the room becomes a new design, a cinematic video and a navigable 3D model — in seconds.",
+          es:"Un diseñador de interiores con IA en el bolsillo: una foto del ambiente se convierte en proyecto nuevo, vídeo cinemático y modelo 3D navegable — en segundos."
+        },
+        stats:[
+          {b:"12", l:{pt:"módulos de IA",en:"AI modules",es:"módulos de IA"}},
+          {b:"15", l:{pt:"modelos orquestrados",en:"models orchestrated",es:"modelos orquestados"}},
+          {b:"32", l:{pt:"templates de vídeo",en:"video templates",es:"plantillas de vídeo"}},
+          {b:"iOS", l:{pt:"na App Store",en:"on App Store",es:"en App Store"}}
+        ],
+        desc:{
+          pt:"App iOS nativo em React Native + Expo, backend serverless em Deno que orquestra 15 modelos de IA (Claude, Flux, Seedance, Whisper, Hunyuan 3D…), Supabase com RLS e economia interna auditável por diamantes. Publicado na App Store, com painel admin e prompts editáveis em produção.",
+          en:"Native iOS app in React Native + Expo, a Deno serverless backend orchestrating 15 AI models (Claude, Flux, Seedance, Whisper, Hunyuan 3D…), Supabase with RLS and an auditable in-app diamond economy. Published on the App Store, with an admin panel and prompts editable in production.",
+          es:"App iOS nativa en React Native + Expo, backend serverless en Deno que orquesta 15 modelos de IA (Claude, Flux, Seedance, Whisper, Hunyuan 3D…), Supabase con RLS y economía interna auditable por diamantes. Publicado en la App Store, con panel admin y prompts editables en producción."
+        },
+        tags:["React Native","Expo","Supabase","Replicate","Claude","three.js"],
+        media:"gallery", phone:true,
+        images:["decoreia-app-1.jpg","decoreia-app-2.jpg","decoreia-app-3.jpg","decoreia-app-4.jpg","decoreia-app-5.jpg"]
+      },
+      {
+        id:"gestor", c:"#1b2f5e", c2:"#f0902f",
+        eyebrow:{pt:"Estudo de caso · Web App (PWA)", en:"Case study · Web App (PWA)", es:"Estudio de caso · Web App (PWA)"},
+        logo:'Gestor de <span>Bolso</span>',
+        sub:{
+          pt:"Gestão financeira para restaurantes: CMV, receituário, cotação de insumos, ficha técnica e fluxo de caixa em um só lugar.",
+          en:"Financial management for restaurants: COGS, recipes, ingredient pricing, cost sheets and cash flow in one place.",
+          es:"Gestión financiera para restaurantes: CMV, recetario, cotización de insumos, ficha técnica y flujo de caja en un solo lugar."
+        },
+        stats:[
+          {b:"5", l:{pt:"módulos",en:"modules",es:"módulos"}},
+          {b:"CMV", l:{pt:"por prato",en:"per dish",es:"por plato"}},
+          {b:"PWA", l:{pt:"instalável",en:"installable",es:"instalable"}},
+          {b:"Real-time", l:{pt:"cálculo de custo",en:"cost calculation",es:"cálculo de costo"}}
+        ],
+        desc:{
+          pt:"Plataforma web instalável (PWA) que centraliza a operação de um restaurante: receituário com ingredientes e modo de preparo, cotação de insumos por fornecedor, ficha técnica com custo e CMV calculados por prato, e fluxo de caixa com entradas, saídas e saldo. Painel administrativo e cálculo de CMV em tempo real.",
+          en:"Installable web platform (PWA) that centralizes a restaurant's operation: recipes with ingredients and prep steps, ingredient pricing by supplier, cost sheets with per-dish cost and COGS, and cash flow with income, expenses and balance. Admin panel and real-time COGS calculation.",
+          es:"Plataforma web instalable (PWA) que centraliza la operación de un restaurante: recetario con ingredientes y modo de preparo, cotización de insumos por proveedor, ficha técnica con costo y CMV por plato, y flujo de caja con entradas, salidas y saldo. Panel administrativo y cálculo de CMV en tiempo real."
+        },
+        tags:["React","TypeScript","Supabase","PWA","CMV"],
+        media:"gallery",
+        images:["gestor-1.jpg","gestor-2.jpg","gestor-3.jpg","gestor-4.jpg","gestor-5.jpg","gestor-6.jpg","gestor-7.jpg"]
       }
-      return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 540'>${frame}${body}</svg>`;
-    }
+    ];
+
 
     /* ============ Render ============ */
     const projectsEl = document.getElementById('projects');
+    const experienceEl = document.getElementById('experience');
+    const skillsDevEl = document.getElementById('skills-dev');
+    const skillsAiEl = document.getElementById('skills-ai');
     let currentLang = 'pt';
     let swipers = [];
 
-    function renderProjects(){
-      const t = I18N[currentLang];
-      swipers.forEach(s => s.destroy(true, true));
-      swipers = [];
+    function skillChip(item){
+      let logo;
+      if(item.s){
+        const color = item.core ? '/white' : (item.c ? '/'+item.c : '');
+        logo = `<img class="logo" src="https://cdn.simpleicons.org/${item.s}${color}" alt="" loading="lazy" onerror="this.style.display='none'" />`;
+      } else {
+        logo = CONCEPT_SVG;
+      }
+      return `<span class="skill${item.core?' core':''}">${logo}${item.n}</span>`;
+    }
 
-      projectsEl.innerHTML = PROJECTS.map((p, i) => `
-        <article class="project" style="--p:${p.color}">
-          <div class="project-head">
-            <span class="p-num">0${i+1}</span>
-            <div class="p-title">
-              <h3>${p.title[currentLang]} <i>·</i></h3>
-              <p>${p.desc[currentLang]}</p>
-            </div>
-            <div class="p-tags">${p.tags.map(tg=>`<span>${tg}</span>`).join("")}</div>
+    function renderSkills(){
+      skillsDevEl.innerHTML = STACK_DEV.map(skillChip).join("");
+      skillsAiEl.innerHTML = STACK_AI.map(skillChip).join("");
+    }
+
+    function renderExperience(){
+      experienceEl.innerHTML = EXPERIENCE.map(e => `
+        <div class="exp-item">
+          <div class="exp-meta">
+            <div class="period">${e.years}</div>
+            <span class="dur">${e.dur[currentLang]}</span>
           </div>
-          <div class="swiper" id="swiper-${i}">
-            <div class="swiper-wrapper">
-              ${p.slides.map(s=>`<div class="swiper-slide">${mockup(s, p.color)}</div>`).join("")}
-            </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-pagination"></div>
+          <div class="exp-body">
+            <h3>${e.company}</h3>
+            <div class="role">${e.role[currentLang]}</div>
+            <p>${e.desc[currentLang]}</p>
           </div>
-          <div class="p-links">
-            <a href="#" target="_blank" rel="noopener">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
-              ${t.view}
-            </a>
-            <a href="https://github.com/Ekz007" target="_blank" rel="noopener">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg>
-              ${t.code}
-            </a>
-          </div>
-        </article>
+        </div>
       `).join("");
+    }
 
-      PROJECTS.forEach((_, i) => {
-        swipers.push(new Swiper(`#swiper-${i}`, {
-          loop: true,
-          speed: 550,
-          autoplay: { delay: 4800, pauseOnMouseEnter: true },
-          navigation: { nextEl: `#swiper-${i} .swiper-button-next`, prevEl: `#swiper-${i} .swiper-button-prev` },
-          pagination: { el: `#swiper-${i} .swiper-pagination`, clickable: true },
-        }));
+    let carTimers = [];
+    function initCarousels(){
+      carTimers.forEach(clearInterval);
+      carTimers = [];
+      document.querySelectorAll('.carousel').forEach(car => {
+        const track = car.querySelector('.car-track');
+        const imgs = [...track.children];
+        const dotsWrap = car.querySelector('.car-dots');
+        if(imgs.length < 2){ if(dotsWrap) dotsWrap.remove(); car.querySelectorAll('.car-nav').forEach(n=>n.remove()); return; }
+        let idx = 0;
+        dotsWrap.innerHTML = imgs.map((_, i) => `<button aria-label="Ir para ${i+1}"></button>`).join("");
+        const dots = [...dotsWrap.children];
+        const go = i => {
+          idx = (i + imgs.length) % imgs.length;
+          track.style.transform = `translateX(-${idx*100}%)`;
+          dots.forEach((d, j) => d.classList.toggle('on', j === idx));
+        };
+        let timer;
+        const play = () => { timer = setInterval(() => go(idx+1), 4200); carTimers.push(timer); };
+        const reset = () => { clearInterval(timer); play(); };
+        car.querySelector('.prev').onclick = () => { go(idx-1); reset(); };
+        car.querySelector('.next').onclick = () => { go(idx+1); reset(); };
+        dots.forEach((d, i) => d.onclick = () => { go(i); reset(); });
+        car.addEventListener('mouseenter', () => clearInterval(timer));
+        car.addEventListener('mouseleave', reset);
+        go(0); play();
       });
+    }
+
+    function renderCases(){
+      projectsEl.innerHTML = CASES.map((c, i) => {
+        const rev = i % 2 === 1;
+        const media = `<div class="case-media">
+             <div class="carousel${c.phone ? " phone" : ""}">
+               <div class="car-track">${c.images.map(im => `<img src="${im}" alt="${c.id}" loading="lazy" />`).join("")}</div>
+               <button class="car-nav prev" aria-label="Anterior">&#8249;</button>
+               <button class="car-nav next" aria-label="Próximo">&#8250;</button>
+               <div class="car-dots"></div>
+             </div>
+           </div>`;
+        const body = `
+          <div class="case-body">
+            <div class="case-eyebrow">${c.eyebrow[currentLang]}</div>
+            <div class="case-logo">${c.logo}</div>
+            <p class="case-sub">${c.sub[currentLang]}</p>
+            <div class="case-stats">${c.stats.map(s => `<div class="case-stat"><b>${s.b}</b><span>${s.l[currentLang]}</span></div>`).join("")}</div>
+            <p class="case-desc">${c.desc[currentLang]}</p>
+            <div class="case-tags">${c.tags.map(t => `<span>${t}</span>`).join("")}</div>
+          </div>`;
+        return `<article class="case" style="--c:${c.c};--c2:${c.c2}">
+            <div class="case-inner${rev ? " rev" : ""}">${body}${media}</div>
+          </article>`;
+      }).join("");
+      initCarousels();
     }
 
     function applyLang(lang){
@@ -544,7 +920,8 @@
         if(t[key] !== undefined) el.innerHTML = t[key];
       });
       document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
-      renderProjects();
+      renderExperience();
+      renderCases();
     }
 
     document.querySelectorAll('#lang button').forEach(b=>{
@@ -556,7 +933,95 @@
     mq.innerHTML += mq.innerHTML;
 
     document.getElementById('year').textContent = new Date().getFullYear();
+    renderSkills();
     applyLang('pt');
+
+    /* ============ Globo futurista de pontos azuis ============ */
+    (function(){
+      const canvas = document.getElementById('globe');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const N = 640;
+      const pts = [];
+      for(let i=0;i<N;i++){
+        const phi = Math.acos(1 - 2*(i+0.5)/N);
+        const theta = Math.PI*(1+Math.sqrt(5))*i;
+        pts.push({ x:Math.sin(phi)*Math.cos(theta), y:Math.cos(phi), z:Math.sin(phi)*Math.sin(theta) });
+      }
+      const arcs = [];
+      const newArc = () => ({ a:pts[(Math.random()*N)|0], b:pts[(Math.random()*N)|0], t:0, speed:0.006+Math.random()*0.01, life:1 });
+      for(let i=0;i<7;i++) arcs.push(newArc());
+
+      let W,H,cx,cy,R;
+      function resize(){
+        const rect = canvas.getBoundingClientRect();
+        W = rect.width; H = rect.height;
+        canvas.width = Math.max(1, W*dpr); canvas.height = Math.max(1, H*dpr);
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        cx = W/2; cy = H/2; R = Math.min(W,H)*0.42;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const tilt = -0.34, st = Math.sin(tilt), ct = Math.cos(tilt);
+      let ang = 0;
+
+      function project(p, a){
+        const sa = Math.sin(a), ca = Math.cos(a);
+        const x = p.x*ca + p.z*sa;
+        const z = -p.x*sa + p.z*ca;
+        const y2 = p.y*ct - z*st;
+        const z2 = p.y*st + z*ct;
+        const persp = 2.3/(2.3 - z2);
+        return { X:cx + x*R*persp, Y:cy + y2*R*persp, z:z2 };
+      }
+
+      function frame(){
+        ctx.clearRect(0,0,W,H);
+
+        if(!reduce) ang += 0.0016;
+
+        for(let i=0;i<N;i++){
+          const pr = project(pts[i], ang);
+          const front = (pr.z+1)/2;
+          ctx.beginPath();
+          ctx.arc(pr.X, pr.Y, 0.6 + front*1.7, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(120,170,255,${0.14 + front*0.72})`;
+          ctx.fill();
+        }
+
+        for(let k=arcs.length-1;k>=0;k--){
+          const arc = arcs[k];
+          const pa = project(arc.a, ang), pb = project(arc.b, ang);
+          const mx=(pa.X+pb.X)/2, my=(pa.Y+pb.Y)/2;
+          const cxp = mx + (mx-cx)*0.4, cyp = my + (my-cy)*0.4;
+          const steps = 26, upto = steps*Math.min(arc.t,1);
+          ctx.beginPath();
+          for(let s=0;s<=upto;s++){
+            const tt=s/steps, u=1-tt;
+            const xx=u*u*pa.X + 2*u*tt*cxp + tt*tt*pb.X;
+            const yy=u*u*pa.Y + 2*u*tt*cyp + tt*tt*pb.Y;
+            s===0 ? ctx.moveTo(xx,yy) : ctx.lineTo(xx,yy);
+          }
+          ctx.strokeStyle=`rgba(125,180,255,${0.5*arc.life})`;
+          ctx.lineWidth=1.2; ctx.stroke();
+
+          const th=Math.min(arc.t,1), u=1-th;
+          const hx=u*u*pa.X + 2*u*th*cxp + th*th*pb.X;
+          const hy=u*u*pa.Y + 2*u*th*cyp + th*th*pb.Y;
+          ctx.beginPath(); ctx.arc(hx,hy,1.9,0,Math.PI*2);
+          ctx.fillStyle=`rgba(190,215,255,${arc.life})`; ctx.fill();
+
+          arc.t += arc.speed;
+          if(arc.t>=1) arc.life -= 0.03;
+          if(arc.life<=0) arcs[k]=newArc();
+        }
+        requestAnimationFrame(frame);
+      }
+      frame();
+    })();
   </script>
 </body>
 </html>
