@@ -576,7 +576,7 @@
         hero_cta1:"Ver projetos", hero_cta2:"Baixar CV",
         stat1:"anos de experiência", stat2:"projetos entregues", stat3:"tecnologias", stat4:"idiomas",
         about_title:"Sobre mim",
-        about_text:"Engenheiro de software focado em <strong>desenvolvimento e na construção de produtos completos</strong>, da arquitetura à produção. Nos últimos 6 anos criei sistemas do zero, refatorei plataformas para escalar e integrei APIs e automações complexas. Acredito que <strong>bom software é simples, rápido e resolve um problema real</strong>. Formado no bootcamp da Le Wagon, com projeto final apresentado no DemoDay do Google for Startups.",
+        about_text:"Engenheiro de software focado em <strong>desenvolvimento e na construção de produtos completos</strong>, da arquitetura à produção. Nos últimos 6 anos criei sistemas do zero, refatorei plataformas para escalar e integrei APIs e automações complexas. Hoje <strong>lidero uma equipe de 10 desenvolvedores</strong>, entregando projetos de ponta a ponta. Acredito que <strong>bom software é simples, rápido e resolve um problema real</strong>. Formado no bootcamp da Le Wagon, com projeto final apresentado no DemoDay do Google for Startups.",
         ab_focus:"Foco", ab_focus_v:"Desenvolvimento · Full Stack",
         ab_stack:"Stack principal",
         ab_loc:"Localização", ab_loc_v:"Rio de Janeiro, Brasil",
@@ -598,7 +598,7 @@
         hero_cta1:"View projects", hero_cta2:"Download CV",
         stat1:"years of experience", stat2:"projects delivered", stat3:"technologies", stat4:"languages",
         about_title:"About me",
-        about_text:"A software engineer focused on <strong>development and building complete products</strong>, from architecture to production. Over the past 6 years I've built systems from scratch, refactored platforms to scale and integrated complex APIs and automations. I believe <strong>good software is simple, fast and solves a real problem</strong>. Trained at Le Wagon's bootcamp, with a final project showcased at the Google for Startups DemoDay.",
+        about_text:"A software engineer focused on <strong>development and building complete products</strong>, from architecture to production. Over the past 6 years I've built systems from scratch, refactored platforms to scale and integrated complex APIs and automations. Today I <strong>lead a team of 10 developers</strong>, delivering projects end to end. I believe <strong>good software is simple, fast and solves a real problem</strong>. Trained at Le Wagon's bootcamp, with a final project showcased at the Google for Startups DemoDay.",
         ab_focus:"Focus", ab_focus_v:"Development · Full Stack",
         ab_stack:"Main stack",
         ab_loc:"Location", ab_loc_v:"Rio de Janeiro, Brazil",
@@ -620,7 +620,7 @@
         hero_cta1:"Ver proyectos", hero_cta2:"Descargar CV",
         stat1:"años de experiencia", stat2:"proyectos entregados", stat3:"tecnologías", stat4:"idiomas",
         about_title:"Sobre mí",
-        about_text:"Ingeniero de software enfocado en <strong>desarrollo y en la construcción de productos completos</strong>, de la arquitectura a la producción. En los últimos 6 años creé sistemas desde cero, refactoricé plataformas para escalar e integré APIs y automatizaciones complejas. Creo que <strong>el buen software es simple, rápido y resuelve un problema real</strong>. Formado en el bootcamp de Le Wagon, con proyecto final presentado en el DemoDay de Google for Startups.",
+        about_text:"Ingeniero de software enfocado en <strong>desarrollo y en la construcción de productos completos</strong>, de la arquitectura a la producción. En los últimos 6 años creé sistemas desde cero, refactoricé plataformas para escalar e integré APIs y automatizaciones complejas. Hoy <strong>lidero un equipo de 10 desarrolladores</strong>, entregando proyectos de punta a punta. Creo que <strong>el buen software es simple, rápido y resuelve un problema real</strong>. Formado en el bootcamp de Le Wagon, con proyecto final presentado en el DemoDay de Google for Startups.",
         ab_focus:"Enfoque", ab_focus_v:"Desarrollo · Full Stack",
         ab_stack:"Stack principal",
         ab_loc:"Ubicación", ab_loc_v:"Río de Janeiro, Brasil",
@@ -745,9 +745,9 @@
         eyebrow:{pt:"Estudo de caso · Product & Engineering", en:"Case study · Product & Engineering", es:"Estudio de caso · Product & Engineering"},
         logo:'Programa <span>Nascer</span> 2026',
         sub:{
-          pt:"Plataforma de pré-incubação de startups de Santa Catarina — da inscrição à seleção e ao acompanhamento diário, com assistente de IA.",
-          en:"Startup pre-incubation platform for Santa Catarina — from application to selection and daily tracking, with an AI assistant.",
-          es:"Plataforma de pre-incubación de startups de Santa Catarina — de la inscripción a la selección y al seguimiento diario, con asistente de IA."
+          pt:"Plataforma oficial de pré-incubação de startups do SEBRAE, órgão governamental de apoio a micro e pequenas empresas — da inscrição à seleção e ao acompanhamento diário, com assistente de IA.",
+          en:"Official startup pre-incubation platform by SEBRAE, the Brazilian government agency supporting micro and small businesses — from application to selection and daily tracking, with an AI assistant.",
+          es:"Plataforma oficial de pre-incubación de startups del SEBRAE, organismo gubernamental de apoyo a micro y pequeñas empresas — de la inscripción a la selección y al seguimiento diario, con asistente de IA."
         },
         stats:[
           {b:"20+", l:{pt:"módulos",en:"modules",es:"módulos"}},
@@ -924,9 +924,44 @@
       renderCases();
     }
 
+    const LANG_KEY = 'lang';
+
     document.querySelectorAll('#lang button').forEach(b=>{
-      b.addEventListener('click', () => applyLang(b.dataset.lang));
+      b.addEventListener('click', () => {
+        // escolha manual: salva e passa a ter prioridade sobre a detecção
+        localStorage.setItem(LANG_KEY, b.dataset.lang);
+        applyLang(b.dataset.lang);
+      });
     });
+
+    // Palpite inicial imediato (sem esperar rede) para evitar flash de conteúdo
+    function initialGuess(){
+      const saved = localStorage.getItem(LANG_KEY);
+      if(saved && I18N[saved]) return saved;
+      const nav = (navigator.language || 'pt').toLowerCase();
+      if(nav.startsWith('es')) return 'es';
+      if(nav.startsWith('pt')) return 'pt';
+      return 'en';
+    }
+
+    // Detecta o país por IP: fora do Brasil => inglês. Só roda se o
+    // usuário ainda não tiver escolhido um idioma manualmente.
+    async function detectByLocation(){
+      if(localStorage.getItem(LANG_KEY)) return; // respeita escolha manual
+      try {
+        const ctrl = new AbortController();
+        const to = setTimeout(() => ctrl.abort(), 2500);
+        const res = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+        clearTimeout(to);
+        if(!res.ok) return;
+        const data = await res.json();
+        const cc = data && data.country_code;
+        if(!cc) return;
+        // se o usuário clicou em algo enquanto a requisição carregava, não sobrescreve
+        if(localStorage.getItem(LANG_KEY)) return;
+        applyLang(cc === 'BR' ? 'pt' : 'en');
+      } catch(e){ /* offline / bloqueado: mantém o palpite inicial */ }
+    }
 
     // duplica o marquee para o loop ser contínuo
     const mq = document.getElementById('marquee');
@@ -934,7 +969,8 @@
 
     document.getElementById('year').textContent = new Date().getFullYear();
     renderSkills();
-    applyLang('pt');
+    applyLang(initialGuess());
+    detectByLocation();
 
     /* ============ Globo futurista de pontos azuis ============ */
     (function(){
