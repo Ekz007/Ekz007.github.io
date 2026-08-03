@@ -175,6 +175,90 @@
     .btn svg { width: 16px; height: 16px; }
     .cta { display: flex; gap: 14px; flex-wrap: wrap; }
 
+    /* ===== Botão "Entrar em contato" + Modal de qualificação ===== */
+    .btn-contact {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-body); font-weight: 600; font-size: 14px;
+      padding: 10px 18px; border-radius: 10px; cursor: pointer;
+      background: var(--accent); color: #fff; border: 1px solid transparent;
+      transition: opacity .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 6px 20px rgba(77,141,255,.28);
+    }
+    .btn-contact:hover { opacity: .92; box-shadow: 0 8px 26px rgba(77,141,255,.42); }
+    .btn-contact:active { transform: scale(.98); }
+    .btn-contact svg { width: 16px; height: 16px; }
+    @media (max-width: 520px) { .btn-contact .lbl { display: none; } .btn-contact { padding: 10px 12px; } }
+
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      background: rgba(4,5,9,.72); backdrop-filter: blur(6px);
+      opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s;
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .modal {
+      position: relative; width: 100%; max-width: 460px;
+      background: linear-gradient(180deg, #0e1017, #0b0c11);
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: 34px 30px 30px; max-height: 92vh; overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      transform: translateY(14px) scale(.985); transition: transform .25s;
+    }
+    .modal-overlay.open .modal { transform: none; }
+    .modal::before {
+      content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1px;
+      background: linear-gradient(140deg, rgba(77,141,255,.55), transparent 42%, rgba(123,108,255,.45));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+    }
+    .modal-close {
+      position: absolute; top: 15px; right: 15px; width: 34px; height: 34px;
+      border-radius: 9px; border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 20px; line-height: 1;
+      display: flex; align-items: center; justify-content: center; transition: .2s;
+    }
+    .modal-close:hover { color: var(--text); border-color: var(--muted); }
+    .eyebrow-wa {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 12px;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--accent);
+      font-weight: 600; margin-bottom: 12px;
+    }
+    .eyebrow-wa svg { width: 15px; height: 15px; }
+    .modal h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 8px; }
+    .modal .m-sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block; font-size: 12.5px; font-weight: 600; color: var(--muted);
+      margin-bottom: 7px; text-transform: uppercase; letter-spacing: .08em;
+    }
+    .field input {
+      width: 100%; padding: 12px 14px; border-radius: 10px;
+      background: #0a0b10; border: 1px solid var(--border); color: var(--text);
+      font-family: var(--font-body); font-size: 15px; transition: border-color .2s, box-shadow .2s;
+    }
+    .field input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .field input::placeholder { color: #565b66; }
+    .budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .budget-opt {
+      padding: 11px 10px; border-radius: 10px; border: 1px solid var(--border);
+      background: #0a0b10; color: var(--muted); font-family: var(--font-body);
+      font-size: 13.5px; font-weight: 600; cursor: pointer; text-align: center; transition: .18s;
+    }
+    .budget-opt:hover { border-color: var(--muted); color: var(--text); }
+    .budget-opt.sel { border-color: var(--accent); color: #fff; background: var(--accent-soft); box-shadow: 0 0 0 1px var(--accent); }
+    .btn-wa {
+      width: 100%; margin-top: 22px; padding: 15px; border-radius: 11px; border: none; cursor: pointer;
+      background: #25d366; color: #052611; font-family: var(--font-body); font-weight: 700; font-size: 15.5px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      transition: opacity .2s, transform .15s, box-shadow .2s; box-shadow: 0 8px 24px rgba(37,211,102,.3);
+    }
+    .btn-wa:hover { opacity: .94; box-shadow: 0 10px 30px rgba(37,211,102,.45); }
+    .btn-wa:active { transform: scale(.99); }
+    .btn-wa svg { width: 20px; height: 20px; }
+    .field-err { display: none; color: #ff6b6b; font-size: 12.5px; margin-top: 6px; }
+    .field.invalid .field-err { display: block; }
+    .field.invalid input { border-color: #ff6b6b; }
+
     /* stats — linhas finas, sem cards */
     .stats {
       margin-top: 80px;
@@ -442,6 +526,10 @@
           <button data-lang="en">EN</button>
           <button data-lang="es">ES</button>
         </div>
+        <button class="btn-contact js-contact-open" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="lbl" data-i18n="cta_contact">Entrar em contato</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -453,7 +541,8 @@
         <h1 data-i18n="hero_title"></h1>
         <p class="sub" data-i18n="hero_sub"></p>
         <div class="cta">
-          <a class="btn btn-solid" href="#projetos" data-i18n="hero_cta1">Ver projetos</a>
+          <button class="btn btn-solid js-contact-open" type="button" data-i18n="cta_contact">Entrar em contato</button>
+          <a class="btn btn-line" href="#projetos" data-i18n="hero_cta1">Ver projetos</a>
         </div>
       </div>
       <div class="hero-visual hero-visual--stack">
@@ -548,6 +637,9 @@
           <span class="idx">05</span>
         </div>
         <h2 data-i18n="contact_title"></h2>
+        <div class="cta" style="margin-top: 32px;">
+          <button class="btn btn-solid js-contact-open" type="button" data-i18n="cta_contact">Entrar em contato</button>
+        </div>
       </div>
     </section>
   </main>
@@ -563,6 +655,46 @@
       </div>
     </div>
   </footer>
+
+  <!-- ===== Modal de qualificação / contato ===== -->
+  <div class="modal-overlay" id="contact-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cm-title">
+      <button class="modal-close" type="button" aria-label="Fechar" data-close>&times;</button>
+      <span class="eyebrow-wa">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.11.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35M12.05 21.78h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 9.88 9.89c0 5.45-4.44 9.88-9.89 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.17-3.48-8.42"/></svg>
+        <span data-i18n="modal_kicker">Orçamento rápido</span>
+      </span>
+      <h3 id="cm-title" data-i18n="modal_title">Vamos falar do seu projeto</h3>
+      <p class="m-sub" data-i18n="modal_sub">Responda em 30 segundos e eu te chamo no WhatsApp com um orçamento.</p>
+
+      <div class="field" id="f-name">
+        <label data-i18n="f_name">Seu nome</label>
+        <input type="text" id="cm-name" data-i18n-ph="name_ph" placeholder="Ex: João Silva" autocomplete="name">
+        <span class="field-err" data-i18n="err_name">Por favor, informe seu nome.</span>
+      </div>
+      <div class="field" id="f-phone">
+        <label data-i18n="f_phone">Seu WhatsApp / telefone</label>
+        <input type="tel" id="cm-phone" data-i18n-ph="phone_ph" placeholder="(21) 99999-9999" autocomplete="tel" inputmode="tel">
+        <span class="field-err" data-i18n="err_phone">Informe um telefone válido com DDD.</span>
+      </div>
+      <div class="field" id="f-budget">
+        <label data-i18n="f_budget">Orçamento estimado</label>
+        <div class="budget-grid" id="cm-budget">
+          <button type="button" class="budget-opt" data-budget="Até R$ 5 mil">Até R$ 5 mil</button>
+          <button type="button" class="budget-opt" data-budget="R$ 5–10 mil">R$ 5–10 mil</button>
+          <button type="button" class="budget-opt" data-budget="R$ 10–20 mil">R$ 10–20 mil</button>
+          <button type="button" class="budget-opt" data-budget="R$ 20–50 mil">R$ 20–50 mil</button>
+          <button type="button" class="budget-opt" data-budget="R$ 50–100 mil">R$ 50–100 mil</button>
+          <button type="button" class="budget-opt" data-budget="Acima de R$ 100 mil">R$ 100 mil+</button>
+        </div>
+      </div>
+
+      <button class="btn-wa" type="button" id="cm-send">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.11.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35M12.05 21.78h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 9.88 9.89c0 5.45-4.44 9.88-9.89 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.17-3.48-8.42"/></svg>
+        <span data-i18n="modal_send">Falar no WhatsApp</span>
+      </button>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
@@ -588,6 +720,14 @@
         projects_title:"Projetos selecionados",
         contact_title:'Vamos construir <span class="dim">algo juntos?</span>',
         contact_email:"Enviar e-mail", contact_cv:"Baixar currículo",
+        cta_contact:"Entrar em contato",
+        modal_kicker:"Orçamento rápido", modal_title:"Vamos falar do seu projeto",
+        modal_sub:"Responda em 30 segundos e eu te chamo no WhatsApp com um orçamento.",
+        f_name:"Seu nome", name_ph:"Ex: João Silva",
+        f_phone:"Seu WhatsApp / telefone", phone_ph:"(21) 99999-9999",
+        f_budget:"Orçamento estimado", err_name:"Por favor, informe seu nome.",
+        err_phone:"Informe um telefone válido com DDD.",
+        modal_send:"Falar no WhatsApp",
         view:"Ver projeto", code:"Ver código"
       },
       en: {
@@ -610,6 +750,14 @@
         projects_title:"Selected projects",
         contact_title:'Let\'s build <span class="dim">something together?</span>',
         contact_email:"Send email", contact_cv:"Download CV",
+        cta_contact:"Get in touch",
+        modal_kicker:"Quick quote", modal_title:"Let's talk about your project",
+        modal_sub:"Answer in 30 seconds and I'll message you on WhatsApp with a quote.",
+        f_name:"Your name", name_ph:"e.g. John Smith",
+        f_phone:"Your WhatsApp / phone", phone_ph:"+1 555 000 0000",
+        f_budget:"Estimated budget", err_name:"Please enter your name.",
+        err_phone:"Enter a valid phone number.",
+        modal_send:"Chat on WhatsApp",
         view:"View project", code:"View code"
       },
       es: {
@@ -632,6 +780,14 @@
         projects_title:"Proyectos seleccionados",
         contact_title:'¿Construimos <span class="dim">algo juntos?</span>',
         contact_email:"Enviar correo", contact_cv:"Descargar CV",
+        cta_contact:"Contáctame",
+        modal_kicker:"Presupuesto rápido", modal_title:"Hablemos de tu proyecto",
+        modal_sub:"Responde en 30 segundos y te escribo por WhatsApp con un presupuesto.",
+        f_name:"Tu nombre", name_ph:"Ej: Juan Pérez",
+        f_phone:"Tu WhatsApp / teléfono", phone_ph:"+34 600 000 000",
+        f_budget:"Presupuesto estimado", err_name:"Por favor, indica tu nombre.",
+        err_phone:"Indica un teléfono válido.",
+        modal_send:"Hablar por WhatsApp",
         view:"Ver proyecto", code:"Ver código"
       }
     };
@@ -919,6 +1075,10 @@
         const key = el.getAttribute('data-i18n');
         if(t[key] !== undefined) el.innerHTML = t[key];
       });
+      document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+        const key = el.getAttribute('data-i18n-ph');
+        if(t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+      });
       document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
       renderExperience();
       renderCases();
@@ -962,6 +1122,87 @@
         applyLang(cc === 'BR' ? 'pt' : 'en');
       } catch(e){ /* offline / bloqueado: mantém o palpite inicial */ }
     }
+
+    /* ============ Modal de contato / qualificação → WhatsApp ============ */
+    (function(){
+      const WA_NUMBER = '5521994781299';
+      // Endpoint do Google Apps Script (Web App) que grava o lead na planilha.
+      // Cole aqui a URL que termina em /exec depois de publicar o script. Vazio = só WhatsApp.
+      const LEADS_ENDPOINT = '';
+      const overlay = document.getElementById('contact-modal');
+      if(!overlay) return;
+      const nameEl = document.getElementById('cm-name');
+      const phoneEl = document.getElementById('cm-phone');
+      const budgetWrap = document.getElementById('cm-budget');
+      const fName = document.getElementById('f-name');
+      const fPhone = document.getElementById('f-phone');
+      let budget = '';
+
+      function resetForm(){
+        nameEl.value = ''; phoneEl.value = ''; budget = '';
+        budgetWrap.querySelectorAll('.budget-opt').forEach(o=>o.classList.remove('sel'));
+        fName.classList.remove('invalid'); fPhone.classList.remove('invalid');
+      }
+      function openModal(){
+        resetForm();
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+        setTimeout(()=>nameEl.focus(), 120);
+      }
+      function closeModal(){
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden','true');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.js-contact-open').forEach(b=> b.addEventListener('click', openModal));
+      overlay.addEventListener('click', e=>{ if(e.target === overlay) closeModal(); });
+      overlay.querySelectorAll('[data-close]').forEach(b=> b.addEventListener('click', closeModal));
+      document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+
+      budgetWrap.addEventListener('click', e=>{
+        const opt = e.target.closest('.budget-opt'); if(!opt) return;
+        budgetWrap.querySelectorAll('.budget-opt').forEach(o=>o.classList.remove('sel'));
+        opt.classList.add('sel');
+        budget = opt.dataset.budget;
+      });
+      nameEl.addEventListener('input', ()=> fName.classList.remove('invalid'));
+      phoneEl.addEventListener('input', ()=> fPhone.classList.remove('invalid'));
+
+      // telefone válido: pelo menos 10 dígitos (DDD + número)
+      const phoneOk = v => (v.match(/\d/g) || []).length >= 10;
+
+      // grava o lead na planilha via Apps Script (não bloqueia o WhatsApp)
+      function sendLead(data){
+        if(!LEADS_ENDPOINT) return;
+        try {
+          const body = new URLSearchParams(data); // request "simples": sem preflight CORS
+          fetch(LEADS_ENDPOINT, { method:'POST', mode:'no-cors', keepalive:true, body })
+            .catch(()=>{});
+        } catch(e){ /* nunca quebra o fluxo do usuário */ }
+      }
+
+      const MSG = {
+        pt: (n,f,b)=>`Olá, meu nome é ${n}. Quero gerar um orçamento para meu projeto.\n\nWhatsApp/telefone: ${f || '—'}\nOrçamento estimado: ${b || 'a definir'}`,
+        en: (n,f,b)=>`Hi, my name is ${n}. I'd like a quote for my project.\n\nWhatsApp/phone: ${f || '—'}\nEstimated budget: ${b || 'to be defined'}`,
+        es: (n,f,b)=>`Hola, mi nombre es ${n}. Quiero generar un presupuesto para mi proyecto.\n\nWhatsApp/teléfono: ${f || '—'}\nPresupuesto estimado: ${b || 'a definir'}`
+      };
+
+      document.getElementById('cm-send').addEventListener('click', ()=>{
+        const nm = nameEl.value.trim();
+        const ph = phoneEl.value.trim();
+        let bad = false;
+        if(!nm){ fName.classList.add('invalid'); bad = true; }
+        if(!phoneOk(ph)){ fPhone.classList.add('invalid'); bad = true; }
+        if(bad){ (!nm ? nameEl : phoneEl).focus(); return; }
+        const lang = (typeof currentLang !== 'undefined' && MSG[currentLang]) ? currentLang : 'pt';
+        sendLead({ name: nm, phone: ph, budget: budget || '', lang, source: location.href });
+        const msg = MSG[lang](nm, ph, budget);
+        window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+        closeModal();
+      });
+    })();
 
     // duplica o marquee para o loop ser contínuo
     const mq = document.getElementById('marquee');
