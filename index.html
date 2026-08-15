@@ -833,36 +833,38 @@
     };
 
     /* ============ Experiência ============ */
-    // ordem cronológica: do mais antigo para o mais recente
+    // ordem cronológica: do mais antigo para o mais recente.
+    // years aceita string fixa ou objeto {pt,en,es} quando precisa de tradução ("hoje").
     const EXPERIENCE = [
       {
-        company:"Consultor Independente", years:"2020 — 2021",
-        dur:{pt:"1 ano", en:"1 yr", es:"1 año"},
-        role:{pt:"Engenheiro de Software · Desenvolvedor de Aplicativos", en:"Software Engineer · App Developer", es:"Ingeniero de Software · Desarrollador de Aplicaciones"},
-        desc:{
-          pt:"Consultoria estratégica, desenvolvimento de aplicativos e de plataformas web, sites institucionais e automações de chatbot para múltiplos clientes, com gestão end-to-end.",
-          en:"Strategic consulting, app development plus web platforms, corporate sites and chatbot automations for multiple clients, with end-to-end delivery.",
-          es:"Consultoría estratégica, desarrollo de aplicaciones y de plataformas web, sitios institucionales y automatizaciones de chatbot para múltiples clientes, con gestión end-to-end."
-        }
-      },
-      {
-        company:"Construtora JADA", years:"2021 — 2023",
-        dur:{pt:"2 anos", en:"2 yrs", es:"2 años"},
-        role:{pt:"Engenheiro de Software · Tecnologia & Inteligência Artificial", en:"Software Engineer · Technology & Artificial Intelligence", es:"Ingeniero de Software · Tecnología e Inteligencia Artificial"},
-        desc:{
-          pt:"Criação de sistema completo do zero, da arquitetura à produção. Atendimento multi-agentes, automação de cadastro e qualificação, e orquestração de workflows com n8n.",
-          en:"Built a complete system from scratch, from architecture to production. Multi-agent support, registration & qualification automation and workflow orchestration with n8n.",
-          es:"Creación de un sistema completo desde cero, de la arquitectura a la producción. Atención multi-agente, automatización de registro y calificación y orquestación de workflows con n8n."
-        }
-      },
-      {
-        company:"Grupo Watrix", years:"2023 — 2026",
+        company:"Construtora Metropolitana", years:"2020 — 2023",
         dur:{pt:"3 anos", en:"3 yrs", es:"3 años"},
+        role:{pt:"Engenheiro de Software · ERP & Sistemas de Gestão", en:"Software Engineer · ERP & Business Systems", es:"Ingeniero de Software · ERP y Sistemas de Gestión"},
+        desc:{
+          pt:"Desenvolvimento de um ERP completo do zero, da modelagem do banco de dados à interface e à produção. Obras, contratos, financeiro, compras e estoque num só sistema, com relatórios gerenciais e controle de acesso por perfil.",
+          en:"Built a complete ERP from scratch, from database modeling to interface and production. Projects, contracts, finance, procurement and inventory in a single system, with management reports and role-based access control.",
+          es:"Desarrollo de un ERP completo desde cero, del modelado de la base de datos a la interfaz y a producción. Obras, contratos, finanzas, compras e inventario en un solo sistema, con informes gerenciales y control de acceso por perfil."
+        }
+      },
+      {
+        company:"Grupo Watrix", years:"2024 — 2025",
+        dur:{pt:"1 ano", en:"1 yr", es:"1 año"},
         role:{pt:"Engenheiro de Software · IA para Imobiliárias & Construtoras", en:"Software Engineer · AI for Real Estate & Construction", es:"Ingeniero de Software · IA para Inmobiliarias y Constructoras"},
         desc:{
-          pt:"Sistema de atendimento 360° com agentes de IA generativa autônomos em todo o funil. Arquitetura RAG com bancos vetoriais (Supabase), CRM White Label e integrações via API em tempo real.",
-          en:"360° customer-service platform with autonomous generative-AI agents across the funnel. RAG architecture with vector databases (Supabase), White Label CRM and real-time API integrations.",
-          es:"Plataforma de atención 360° con agentes de IA generativa autónomos en todo el embudo. Arquitectura RAG con bases vectoriales (Supabase), CRM White Label e integraciones vía API en tiempo real."
+          pt:"Construção de um CRM com agentes de IA generativa que conduzem o processo comercial do cliente de ponta a ponta — qualificação, follow-up e avanço de etapa no funil. Arquitetura RAG com bancos vetoriais (Supabase), CRM White Label e integrações via API em tempo real.",
+          en:"Built a CRM with generative-AI agents that drive the client's sales process end to end — qualification, follow-up and funnel-stage progression. RAG architecture with vector databases (Supabase), White Label CRM and real-time API integrations.",
+          es:"Construcción de un CRM con agentes de IA generativa que conducen el proceso comercial del cliente de punta a punta — calificación, follow-up y avance de etapa en el embudo. Arquitectura RAG con bases vectoriales (Supabase), CRM White Label e integraciones vía API en tiempo real."
+        }
+      },
+      {
+        company:"Consultor Independente",
+        years:{pt:"2025 — hoje", en:"2025 — present", es:"2025 — hoy"},
+        dur:{pt:"atual", en:"current", es:"actual"},
+        role:{pt:"Engenheiro de Software · Desenvolvedor de Aplicativos", en:"Software Engineer · App Developer", es:"Ingeniero de Software · Desarrollador de Aplicaciones"},
+        desc:{
+          pt:"Consultoria estratégica, desenvolvimento de aplicativos e de plataformas web, sites institucionais e automações com IA para múltiplos clientes, com gestão end-to-end.",
+          en:"Strategic consulting, app development plus web platforms, corporate sites and AI automations for multiple clients, with end-to-end delivery.",
+          es:"Consultoría estratégica, desarrollo de aplicaciones y de plataformas web, sitios institucionales y automatizaciones con IA para múltiples clientes, con gestión end-to-end."
         }
       }
     ];
@@ -1040,7 +1042,7 @@
       experienceEl.innerHTML = EXPERIENCE.map(e => `
         <div class="exp-item">
           <div class="exp-meta">
-            <div class="period">${e.years}</div>
+            <div class="period">${typeof e.years === 'string' ? e.years : e.years[currentLang]}</div>
             <span class="dur">${e.dur[currentLang]}</span>
           </div>
           <div class="exp-body">
