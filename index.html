@@ -341,6 +341,26 @@
     .exp-body .role { color: var(--accent); font-size: 14px; font-weight: 500; margin: 4px 0 12px; }
     .exp-body p { color: var(--muted); font-size: 16px; max-width: 640px; }
 
+    /* ============ CURIOSIDADE (foto + legenda) ============ */
+    .fun-fact {
+      display: grid; grid-template-columns: 1.15fr 1fr; gap: 34px; align-items: center;
+      margin-top: 44px; padding: 26px; border: 1px solid var(--border); border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+    }
+    @media (max-width: 820px) { .fun-fact { grid-template-columns: 1fr; gap: 22px; } }
+    .fun-fact figure { margin: 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .fun-fact img { width: 100%; height: 100%; display: block; object-fit: cover; aspect-ratio: 4 / 3; }
+    .ff-tag {
+      display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--accent); background: var(--accent-soft);
+      border: 1px solid rgba(77,141,255,.3); border-radius: 999px; padding: 4px 12px;
+    }
+    .ff-body h3 {
+      font-family: var(--font-display); font-size: 23px; font-weight: 600;
+      letter-spacing: -.02em; margin: 14px 0 10px;
+    }
+    .ff-body p { color: var(--muted); font-size: 16px; max-width: 520px; }
+
     /* ============ SKILLS ============ */
     .skills-group + .skills-group { margin-top: 44px; }
     .skills-label {
@@ -601,6 +621,17 @@
           <span class="idx">02</span>
         </div>
         <div id="experience"></div>
+
+        <div class="fun-fact">
+          <figure>
+            <img src="google-startups.jpg" alt="Apresentação de projeto no palco do Google for Startups" loading="lazy">
+          </figure>
+          <div class="ff-body">
+            <span class="ff-tag" data-i18n="ff_tag">Curiosidade</span>
+            <h3 data-i18n="ff_title">Pitch no Google for Startups</h3>
+            <p data-i18n="ff_desc">Apresentação do Locals Only — plataforma de descoberta de bares, atrações e eventos da cidade — no palco do Google for Startups.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -715,6 +746,9 @@
         ab_edu:"Formação", ab_edu_v:"Le Wagon · DemoDay Google for Startups",
         ab_status:"Status", ab_status_v:"Disponível para projetos",
         exp_title:"Experiência",
+        ff_tag:"Curiosidade",
+        ff_title:"Pitch no Google for Startups",
+        ff_desc:"Apresentação do Locals Only — plataforma de descoberta de bares, atrações e eventos da cidade — no palco do Google for Startups.",
         skills_title:"Stack & Conexões",
         skills_dev:"Desenvolvimento", skills_ai:"IA & LLMs",
         projects_title:"Projetos selecionados",
@@ -745,6 +779,9 @@
         ab_edu:"Education", ab_edu_v:"Le Wagon · Google for Startups DemoDay",
         ab_status:"Status", ab_status_v:"Available for projects",
         exp_title:"Experience",
+        ff_tag:"Fun fact",
+        ff_title:"Pitching at Google for Startups",
+        ff_desc:"Presenting Locals Only — a discovery platform for bars, attractions and events around the city — on stage at Google for Startups.",
         skills_title:"Stack & Connections",
         skills_dev:"Development", skills_ai:"AI & LLMs",
         projects_title:"Selected projects",
@@ -775,6 +812,9 @@
         ab_edu:"Formación", ab_edu_v:"Le Wagon · DemoDay Google for Startups",
         ab_status:"Estado", ab_status_v:"Disponible para proyectos",
         exp_title:"Experiencia",
+        ff_tag:"Curiosidad",
+        ff_title:"Pitch en Google for Startups",
+        ff_desc:"Presentación de Locals Only — plataforma de descubrimiento de bares, atracciones y eventos de la ciudad — en el escenario de Google for Startups.",
         skills_title:"Stack y Conexiones",
         skills_dev:"Desarrollo", skills_ai:"IA y LLMs",
         projects_title:"Proyectos seleccionados",
@@ -793,15 +833,16 @@
     };
 
     /* ============ Experiência ============ */
+    // ordem cronológica: do mais antigo para o mais recente
     const EXPERIENCE = [
       {
-        company:"Grupo Watrix", years:"2023 — 2026",
-        dur:{pt:"3 anos", en:"3 yrs", es:"3 años"},
-        role:{pt:"Engenheiro de Software · IA para Imobiliárias & Construtoras", en:"Software Engineer · AI for Real Estate & Construction", es:"Ingeniero de Software · IA para Inmobiliarias y Constructoras"},
+        company:"Consultor Independente", years:"2020 — 2021",
+        dur:{pt:"1 ano", en:"1 yr", es:"1 año"},
+        role:{pt:"Engenheiro de Software · Desenvolvedor de Aplicativos", en:"Software Engineer · App Developer", es:"Ingeniero de Software · Desarrollador de Aplicaciones"},
         desc:{
-          pt:"Sistema de atendimento 360° com agentes de IA generativa autônomos em todo o funil. Arquitetura RAG com bancos vetoriais (Supabase), CRM White Label e integrações via API em tempo real.",
-          en:"360° customer-service platform with autonomous generative-AI agents across the funnel. RAG architecture with vector databases (Supabase), White Label CRM and real-time API integrations.",
-          es:"Plataforma de atención 360° con agentes de IA generativa autónomos en todo el embudo. Arquitectura RAG con bases vectoriales (Supabase), CRM White Label e integraciones vía API en tiempo real."
+          pt:"Consultoria estratégica, desenvolvimento de aplicativos e de plataformas web, sites institucionais e automações de chatbot para múltiplos clientes, com gestão end-to-end.",
+          en:"Strategic consulting, app development plus web platforms, corporate sites and chatbot automations for multiple clients, with end-to-end delivery.",
+          es:"Consultoría estratégica, desarrollo de aplicaciones y de plataformas web, sitios institucionales y automatizaciones de chatbot para múltiples clientes, con gestión end-to-end."
         }
       },
       {
@@ -815,13 +856,13 @@
         }
       },
       {
-        company:"Consultor Independente", years:"2020 — 2021",
-        dur:{pt:"1 ano", en:"1 yr", es:"1 año"},
-        role:{pt:"Engenheiro de Software · Desenvolvedor de Aplicativos", en:"Software Engineer · App Developer", es:"Ingeniero de Software · Desarrollador de Aplicaciones"},
+        company:"Grupo Watrix", years:"2023 — 2026",
+        dur:{pt:"3 anos", en:"3 yrs", es:"3 años"},
+        role:{pt:"Engenheiro de Software · IA para Imobiliárias & Construtoras", en:"Software Engineer · AI for Real Estate & Construction", es:"Ingeniero de Software · IA para Inmobiliarias y Constructoras"},
         desc:{
-          pt:"Consultoria estratégica, desenvolvimento de aplicativos e de plataformas web, sites institucionais e automações de chatbot para múltiplos clientes, com gestão end-to-end.",
-          en:"Strategic consulting, app development plus web platforms, corporate sites and chatbot automations for multiple clients, with end-to-end delivery.",
-          es:"Consultoría estratégica, desarrollo de aplicaciones y de plataformas web, sitios institucionales y automatizaciones de chatbot para múltiples clientes, con gestión end-to-end."
+          pt:"Sistema de atendimento 360° com agentes de IA generativa autônomos em todo o funil. Arquitetura RAG com bancos vetoriais (Supabase), CRM White Label e integrações via API em tempo real.",
+          en:"360° customer-service platform with autonomous generative-AI agents across the funnel. RAG architecture with vector databases (Supabase), White Label CRM and real-time API integrations.",
+          es:"Plataforma de atención 360° con agentes de IA generativa autónomos en todo el embudo. Arquitectura RAG con bases vectoriales (Supabase), CRM White Label e integraciones vía API en tiempo real."
         }
       }
     ];
