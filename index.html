@@ -6,6 +6,24 @@
   <title>Maurício Eskenazi — Engenheiro de Software</title>
   <meta name="description" content="Maurício Eskenazi — engenheiro de software focado em desenvolvimento. Transformo ideias em produtos completos, do banco de dados à interface." />
 
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1884231332584372');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1884231332584372&ev=PageView&noscript=1"
+    alt="" /></noscript>
+  <!-- End Meta Pixel Code -->
+
   <!-- Fonts: Space Grotesk (display) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1226,6 +1244,28 @@
         } catch(e){ /* nunca quebra o fluxo do usuário */ }
       }
 
+      // Valor (R$) por faixa de orçamento — enviado ao Pixel para o Meta
+      // otimizar por valor do lead, não só por volume.
+      const BUDGET_VALUE = {
+        'Até R$ 5 mil': 5000,
+        'R$ 5–10 mil': 10000,
+        'R$ 10–20 mil': 20000,
+        'R$ 20–50 mil': 50000,
+        'R$ 50–100 mil': 100000,
+        'Acima de R$ 100 mil': 150000
+      };
+
+      // Evento Lead no Meta Pixel. eventID único p/ deduplicar caso um dia
+      // o mesmo lead também seja enviado pela Conversions API (server-side).
+      function trackLead(b){
+        if(typeof fbq !== 'function') return;
+        const params = { content_name: 'Contato Portfólio', content_category: b || 'orçamento a definir' };
+        const value = BUDGET_VALUE[b];
+        if(value){ params.currency = 'BRL'; params.value = value; }
+        const eventID = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2,10);
+        try { fbq('track', 'Lead', params, { eventID }); } catch(e){ /* nunca quebra o envio */ }
+      }
+
       const MSG = {
         pt: (n,f,b)=>`Olá, meu nome é ${n}. Quero gerar um orçamento para meu projeto.\n\nWhatsApp/telefone: ${f || '—'}\nOrçamento estimado: ${b || 'a definir'}`,
         en: (n,f,b)=>`Hi, my name is ${n}. I'd like a quote for my project.\n\nWhatsApp/phone: ${f || '—'}\nEstimated budget: ${b || 'to be defined'}`,
@@ -1241,6 +1281,7 @@
         if(bad){ (!nm ? nameEl : phoneEl).focus(); return; }
         const lang = (typeof currentLang !== 'undefined' && MSG[currentLang]) ? currentLang : 'pt';
         sendLead({ name: nm, phone: ph, budget: budget || '', lang, source: location.href });
+        trackLead(budget);
         const msg = MSG[lang](nm, ph, budget);
         window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         closeModal();
